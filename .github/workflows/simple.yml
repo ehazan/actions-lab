@@ -6,8 +6,8 @@ jobs:
   run-shell-command:
     runs-on: ubuntu-latest
     steps:
-      - name: echho a string
-        run: echo "Hello Actions"
+      - name: echo a string
+        run: echoo "Hello Actions"
       - name: multiline script
         run: |
           node -v
