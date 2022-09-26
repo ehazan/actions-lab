@@ -1,7 +1,13 @@
 name: Actions Workflow
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [closed, assigned, opened, reopened]
+#on: [push, pull_request]
 # Test pull-request
+# article events on pull_request
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 
 jobs:
   run-github-actions:
