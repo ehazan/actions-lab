@@ -1,8 +1,14 @@
 name: Actions Workflow
 
 on:
+  # trigger on push
   # push:
-#  schedule:
+
+  # Trigger repository dispatch event
+  # https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event
+  repository_dispatch:
+    types: [build]
+  #  schedule:
 #    - cron: "0/5 * * * *"
 #    - cron: "0/6 * * * *"
   pull_request:
