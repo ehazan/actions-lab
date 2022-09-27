@@ -7,11 +7,12 @@ on:
   # Trigger repository dispatch event
   # https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event
   repository_dispatch:
+    types: [build]
   #  schedule:
 #    - cron: "0/5 * * * *"
 #    - cron: "0/6 * * * *"
-  pull_request:
-    types: [closed, assigned, opened, reopened]
+#  pull_request:
+#    types: [closed, assigned, opened, reopened]
 #on: [push, pull_request]
 # Test pull-request
 # article events on pull_request
@@ -29,6 +30,7 @@ jobs:
           echo $GITHUB_REPOSITORY
           echo $GITHUB_WORKSPACE
           echo "${{ github.token }}"
+          echo "End list files"
           # Git clone
           #git clone git@github:$GITHUB_REPOSITORY
           # Git checkout
