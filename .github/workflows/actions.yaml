@@ -11,8 +11,8 @@ on:
   #  schedule:
 #    - cron: "0/5 * * * *"
 #    - cron: "0/6 * * * *"
-#  pull_request:
-#    types: [closed, assigned, opened, reopened]
+  pull_request:
+    types: [closed, assigned, opened, reopened]
 #on: [push, pull_request]
 # Test pull-request
 # article events on pull_request
@@ -22,6 +22,8 @@ jobs:
   run-github-actions:
     runs-on: ubuntu-latest
     steps:
+      - name: payload
+        run: echo ${{ github.event.client_payload.message }}
       - name: List Files
         run: |
           pwd
