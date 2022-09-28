@@ -7,7 +7,7 @@ on:
   # Trigger repository dispatch event
   # https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event
   repository_dispatch:
-    types: [build]
+    types: [test_result]
   #  schedule:
 #    - cron: "0/5 * * * *"
 #    - cron: "0/6 * * * *"
