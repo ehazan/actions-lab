@@ -2,17 +2,43 @@ name: Actions Workflow
 
 on:
   # trigger on push
-  # push:
+  push:
+# branches-ignore - ignores branches, cannot be used with branches
+#    branches-ignore:
+#      - master
+#      - 'feature/*'
+
+    # Docs for filtering by criteria
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+
+    branches:
+      - master
+      - 'feature/*' # matches feature/feat1, feature/feat2 but not feature/feat2/a
+      - 'feature/**' # matches feature/feat2/a
+      - '!feature/featC' # Ignore featC, must be put after the patterns
+    tags:
+      - v1.*
+
+#    tags-ignore: # ignore tags, cannot be used with tags
+#      - v2.*
+    paths:
+      - '**.js'
+      - '!filename.js' #ignore specific file
+
+#    paths-ignore: # cannot be used with paths
+#      - 'docs/**'
 
   # Trigger repository dispatch event
   # https://docs.github.com/en/rest/repos/repos#create-a-repository-dispatch-event
-  repository_dispatch:
-    types: [test_result]
+#  repository_dispatch:
+#    types: [test_result]
   #  schedule:
 #    - cron: "0/5 * * * *"
 #    - cron: "0/6 * * * *"
-  pull_request:
-    types: [closed, assigned, opened, reopened]
+#  pull_request:
+#    branches:
+#      - master
+#    types: [closed, assigned, opened, reopened]
 #on: [push, pull_request]
 # Test pull-request
 # article events on pull_request
