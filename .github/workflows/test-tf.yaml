@@ -3,10 +3,17 @@ on:
   push:
     paths:
     - 'vpc/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'vpc/**'
 
 jobs:
-  analyze-ppl:
+  generate_matrix:
     runs-on: ubuntu-latest
     steps:
       - name: Print Test
-        run: echo "Hello1"
+        run: |
+          ls -al
+          pwd
