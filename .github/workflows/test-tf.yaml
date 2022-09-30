@@ -1,9 +1,12 @@
 name: Analyze
-on: push
+on:
+  push:
+    paths:
+    - 'vpc/**'
 
 jobs:
   analyze-ppl:
     runs-on: ubuntu-latest
     steps:
       - name: Print Test
-        run: echo "Hello"
+        run: echo "Hello1"
