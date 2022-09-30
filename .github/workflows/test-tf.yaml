@@ -1,0 +1,9 @@
+name: Analyze
+on: push
+
+jobs:
+  analyze-ppl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Test
+        run: echo "Hello"
