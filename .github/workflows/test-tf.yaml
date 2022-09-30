@@ -2,18 +2,59 @@ name: Analyze
 on:
   push:
     paths:
-    - 'vpc/**'
+    - 'cloud9/vpc/**'
     branches:
       - main
   pull_request:
     paths:
-      - 'vpc/**'
+      - 'cloud9/vpc/**'
 
 jobs:
   generate_matrix:
     runs-on: ubuntu-latest
+    env:
+      TERRAFORM_CHECK_PATH: cloud9
     steps:
-      - name: Print Test
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: get parent directory and set matrix
+        id: set-matrix
         run: |
-          ls -al
-          pwd
+          # A list of files that changed
+          git diff --name-only HEAD^ HEAD $TERRAFORM_CHECK_PATH > files1.txt
+          # Output a list of parent folder stripping out the file name
+          # leaving only the parent dir name
+          while IFS= read -r file
+          do
+            parent_dir=$(dirname -- "$file")
+            echo $parent_dir >> file2.txt
+          done < files1.txt
+          echo "## All changed directories"
+          cat file2.txt
+          # There can be duplicates in the parent dir name if multiple
+          # files changed in that parent dir.  This is to output a list
+          # that is unqiue so that we don't run the plan on the same 
+          # folder multiple times.
+          cat file2.txt | uniq > file3.txt
+          echo "## Unique list of changed dirs only"
+          cat file3.txt
+          echo "##"
+          # Set the parent dir into the Github Actions json matrix
+          # https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#fromjson
+          tf_config=''
+          while IFS= read -r file
+          do
+            echo "file = $file"
+            # parent_dir=$(dirname -- "$file")
+            # echo "parent_dir = $parent_dir"
+
+            if [[ -z $tf_config ]]; then
+              tf_config="{\"tf_config\":\"$file\"}"
+            else
+              tf_config="$tf_config, {\"tf_config\":\"$file\"}"
+            fi
+          done < file3.txt
+          tf_config="{\"include\":[$tf_config]}"
+          echo "::set-output name=matrix::$tf_config"
