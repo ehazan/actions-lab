@@ -13,12 +13,17 @@ jobs:
   generate_matrix:
     runs-on: ubuntu-latest
     env:
+      # The path that you want to construct the matrix on.  Only files in this
+      # path that has changed will be included in.
       TERRAFORM_CHECK_PATH: cloud9
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 2
+
       - name: get parent directory and set matrix
         id: set-matrix
         run: |
@@ -49,7 +54,7 @@ jobs:
             echo "file = $file"
             # parent_dir=$(dirname -- "$file")
             # echo "parent_dir = $parent_dir"
-
+          
             if [[ -z $tf_config ]]; then
               tf_config="{\"tf_config\":\"$file\"}"
             else
