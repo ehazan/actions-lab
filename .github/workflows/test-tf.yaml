@@ -13,8 +13,6 @@ jobs:
   generate_matrix:
     runs-on: ubuntu-latest
     env:
-      # The path that you want to construct the matrix on.  Only files in this
-      # path that has changed will be included in.
       TERRAFORM_CHECK_PATH: cloud9
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -72,4 +70,4 @@ jobs:
     steps:
       - name: TestCheckout
         run: |
-          echo "My little test"
+          echo "${{fromJson(needs.generate_matrix.outputs.matrix)}}"
