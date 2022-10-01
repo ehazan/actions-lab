@@ -67,4 +67,4 @@ jobs:
     steps:
       - name: TestCheckout
         run: |
-          echo ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+          echo "My little test"
